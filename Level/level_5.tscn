@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://b3ms8nmy8elv1"]
+
+[ext_resource type="PackedScene" uid="uid://dj0rmhxuu8ubc" path="res://Level/level_base.tscn" id="1_0k8m4"]
+[ext_resource type="Script" path="res://Level/Landpad.gd" id="1_3tgke"]
+[ext_resource type="PackedScene" uid="uid://dlsl4k1x35tr7" path="res://player.tscn" id="2_4ubm8"]
+[ext_resource type="PackedScene" uid="uid://b4thse8l4glnq" path="res://moving_hazard.tscn" id="3_32828"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nhlur"]
+albedo_color = Color(0.356863, 0.54902, 0.968627, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fx8lm"]
+albedo_color = Color(0.298039, 0.768627, 0, 1)
+
+[node name="Level" type="Node3D"]
+
+[node name="LevelBase" parent="." instance=ExtResource("1_0k8m4")]
+
+[node name="Launchpad" type="CSGBox3D" parent="." groups=["safe_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.2, 0)
+use_collision = true
+size = Vector3(2, 0.4, 2)
+material = SubResource("StandardMaterial3D_nhlur")
+
+[node name="Landpad" type="CSGBox3D" parent="." groups=["goal_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0.2, 0)
+use_collision = true
+size = Vector3(2, 0.4, 2)
+material = SubResource("StandardMaterial3D_fx8lm")
+script = ExtResource("1_3tgke")
+next_level_file = "res://Level/level.tscn"
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.978148, 0.207912, 0, -0.207912, 0.978148, 0, 5, 7.5)
+
+[node name="Player" parent="." instance=ExtResource("2_4ubm8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 1.4, 0)
+
+[node name="Hazards" type="Node3D" parent="."]
+
+[node name="MovingHazard" parent="Hazards" instance=ExtResource("3_32828")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2, 0)
+destination = Vector3(1, 1.5, 0)
+duration = 3.0
+
+[node name="MovingHazard2" parent="Hazards" instance=ExtResource("3_32828")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.95345, 5.68295, 0)
+destination = Vector3(-1, -1.5, 0)
+duration = 3.0
